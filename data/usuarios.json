@@ -1,0 +1,26 @@
+﻿[
+  {
+    "identificador": 1,
+    "nombre_completo": "Admin Principal",
+    "correo_electronico": "admin@circo.com",
+    "contrasena": "admin123",
+    "rol": "Administrador",
+    "direccion": null
+  },
+  {
+    "identificador": 2,
+    "nombre_completo": "Cajero Principal",
+    "correo_electronico": "cajero@circo.com",
+    "contrasena": "cajero123",
+    "rol": "Cajero",
+    "direccion": null
+  },
+  {
+    "identificador": 3,
+    "nombre_completo": "Cliente Demo",
+    "correo_electronico": "cliente@circo.com",
+    "contrasena": "cliente123",
+    "rol": "Cliente",
+    "direccion": null
+  }
+]
