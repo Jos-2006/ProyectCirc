@@ -1,0 +1,10 @@
+﻿# Archivos generados
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+
+# Temporal local
+_tmp_zip/
+_pdf_texts/
