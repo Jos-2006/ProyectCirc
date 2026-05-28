@@ -48,6 +48,40 @@ class AdminController:
             precio_vip,
         )
 
+    def actualizar_evento(
+        self,
+        evento_id: int,
+        nombre: str,
+        categoria: str,
+        fecha: str,
+        hora_inicio: str,
+        duracion_minutos: int,
+        descripcion: str,
+    ) -> tuple[bool, str]:
+        return self.evento_service.actualizar_evento(
+            evento_id=evento_id,
+            nombre=nombre,
+            categoria=categoria,
+            fecha=fecha,
+            hora_inicio=hora_inicio,
+            duracion_minutos=duracion_minutos,
+            descripcion=descripcion,
+        )
+
+    def aumentar_capacidad(
+        self,
+        evento_id: int,
+        agregar_general: int,
+        agregar_preferencial: int,
+        agregar_vip: int,
+    ) -> tuple[bool, str]:
+        return self.evento_service.aumentar_capacidad(
+            evento_id=evento_id,
+            agregar_general=agregar_general,
+            agregar_preferencial=agregar_preferencial,
+            agregar_vip=agregar_vip,
+        )
+
     def eliminar_evento(self, evento_id: int) -> tuple[bool, str]:
         return self.evento_service.eliminar_evento(
             evento_id=evento_id,

@@ -138,6 +138,24 @@ class AdminMenu:
 
         tk.Button(
             form,
+            text="Cargar show",
+            command=self._cargar_evento_en_formulario,
+            bg="#7A8AA8",
+            fg="white",
+            relief="flat",
+        ).grid(row=4, column=0, sticky="ew", padx=5, pady=6)
+
+        tk.Button(
+            form,
+            text="Actualizar show",
+            command=self._actualizar_show,
+            bg="#4E7AC7",
+            fg="white",
+            relief="flat",
+        ).grid(row=4, column=1, sticky="ew", padx=5, pady=6)
+
+        tk.Button(
+            form,
             text="Ver detalle show",
             command=self._ver_detalle_evento,
             bg="#4E7AC7",
@@ -181,6 +199,27 @@ class AdminMenu:
             fg="white",
             relief="flat",
         ).grid(row=0, column=6, padx=8, pady=4)
+
+        tk.Label(frame, text="+ General", bg="white").grid(row=1, column=0, padx=5, pady=4)
+        self.entry_mas_general = tk.Entry(frame, width=10)
+        self.entry_mas_general.grid(row=1, column=1, padx=5, pady=4)
+
+        tk.Label(frame, text="+ Preferencial", bg="white").grid(row=1, column=2, padx=5, pady=4)
+        self.entry_mas_preferencial = tk.Entry(frame, width=10)
+        self.entry_mas_preferencial.grid(row=1, column=3, padx=5, pady=4)
+
+        tk.Label(frame, text="+ VIP", bg="white").grid(row=1, column=4, padx=5, pady=4)
+        self.entry_mas_vip = tk.Entry(frame, width=10)
+        self.entry_mas_vip.grid(row=1, column=5, padx=5, pady=4)
+
+        tk.Button(
+            frame,
+            text="Agregar asientos",
+            command=self._agregar_asientos,
+            bg="#1E4A8C",
+            fg="white",
+            relief="flat",
+        ).grid(row=1, column=6, padx=8, pady=4)
 
     def _crear_bloque_reportes(self) -> None:
         frame = tk.LabelFrame(self.content, text="Reportes y consultas", bg="white")
@@ -284,6 +323,63 @@ class AdminMenu:
         self.entry_descripcion.delete(0, tk.END)
         self._cargar_eventos()
 
+    def _cargar_evento_en_formulario(self) -> None:
+        evento_id = self._seleccion_evento_id()
+        if evento_id is None:
+            messagebox.showwarning("Seleccion requerida", "Selecciona un show.")
+            return
+
+        evento = self.controller.obtener_evento(evento_id)
+        if evento is None:
+            messagebox.showerror("Error", "No se encontro el show.")
+            return
+
+        self.entry_nombre.delete(0, tk.END)
+        self.entry_nombre.insert(0, evento.nombre)
+        self.combo_categoria.set(evento.categoria)
+        self.entry_fecha.delete(0, tk.END)
+        self.entry_fecha.insert(0, evento.fecha)
+        self.entry_hora.delete(0, tk.END)
+        self.entry_hora.insert(0, evento.hora_inicio)
+        self.entry_duracion.delete(0, tk.END)
+        self.entry_duracion.insert(0, str(evento.duracion_minutos))
+        self.entry_descripcion.delete(0, tk.END)
+        self.entry_descripcion.insert(0, evento.descripcion)
+
+        self.entry_precio_general.delete(0, tk.END)
+        self.entry_precio_general.insert(0, str(int(evento.precios_por_zona.get("General", 0))))
+        self.entry_precio_preferencial.delete(0, tk.END)
+        self.entry_precio_preferencial.insert(0, str(int(evento.precios_por_zona.get("Preferencial", 0))))
+        self.entry_precio_vip.delete(0, tk.END)
+        self.entry_precio_vip.insert(0, str(int(evento.precios_por_zona.get("VIP", 0))))
+
+    def _actualizar_show(self) -> None:
+        evento_id = self._seleccion_evento_id()
+        if evento_id is None:
+            messagebox.showwarning("Seleccion requerida", "Selecciona un show para actualizar.")
+            return
+
+        try:
+            duracion = int(self.entry_duracion.get().strip())
+        except ValueError:
+            messagebox.showerror("Dato invalido", "La duracion debe ser un numero entero.")
+            return
+
+        ok, mensaje = self.controller.actualizar_evento(
+            evento_id=evento_id,
+            nombre=self.entry_nombre.get().strip(),
+            categoria=self.combo_categoria.get().strip(),
+            fecha=self.entry_fecha.get().strip(),
+            hora_inicio=self.entry_hora.get().strip(),
+            duracion_minutos=duracion,
+            descripcion=self.entry_descripcion.get().strip(),
+        )
+        if ok:
+            messagebox.showinfo("Exito", mensaje)
+            self._cargar_eventos()
+        else:
+            messagebox.showerror("Error", mensaje)
+
     def _ver_detalle_evento(self) -> None:
         evento_id = self._seleccion_evento_id()
         if evento_id is None:
@@ -341,6 +437,34 @@ class AdminMenu:
         if ok:
             messagebox.showinfo("Exito", mensaje)
             self._cargar_eventos()
+        else:
+            messagebox.showerror("Error", mensaje)
+
+    def _agregar_asientos(self) -> None:
+        evento_id = self._seleccion_evento_id()
+        if evento_id is None:
+            messagebox.showwarning("Seleccion requerida", "Selecciona un show para agregar asientos.")
+            return
+
+        try:
+            general = int((self.entry_mas_general.get() or "0").strip())
+            preferencial = int((self.entry_mas_preferencial.get() or "0").strip())
+            vip = int((self.entry_mas_vip.get() or "0").strip())
+        except ValueError:
+            messagebox.showerror("Dato invalido", "Los asientos deben ser numeros enteros.")
+            return
+
+        ok, mensaje = self.controller.aumentar_capacidad(
+            evento_id=evento_id,
+            agregar_general=general,
+            agregar_preferencial=preferencial,
+            agregar_vip=vip,
+        )
+        if ok:
+            messagebox.showinfo("Exito", mensaje)
+            self.entry_mas_general.delete(0, tk.END)
+            self.entry_mas_preferencial.delete(0, tk.END)
+            self.entry_mas_vip.delete(0, tk.END)
         else:
             messagebox.showerror("Error", mensaje)
 

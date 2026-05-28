@@ -155,6 +155,67 @@ class EventoService:
         self.repositorio.actualizar(evento)
         return True, "Precios actualizados correctamente."
 
+    def actualizar_evento(
+        self,
+        evento_id: int,
+        nombre: str,
+        categoria: str,
+        fecha: str,
+        hora_inicio: str,
+        duracion_minutos: int,
+        descripcion: str,
+    ) -> Tuple[bool, str]:
+        evento = self.repositorio.obtener_por_id(evento_id)
+        if evento is None:
+            return False, "No existe el show seleccionado."
+
+        valido, mensaje = self._validar_entrada_evento(nombre, categoria, fecha, hora_inicio, duracion_minutos)
+        if not valido:
+            return False, mensaje
+
+        if self._hay_conflicto_horario(
+            fecha=fecha,
+            hora_inicio=hora_inicio,
+            duracion_minutos=duracion_minutos,
+            evento_excluir_id=evento_id,
+        ):
+            return False, "Existe choque de horarios con otro show en la misma fecha."
+
+        evento.nombre = nombre.strip()
+        evento.categoria = categoria.strip()
+        evento.fecha = fecha.strip()
+        evento.hora_inicio = hora_inicio.strip()
+        evento.duracion_minutos = duracion_minutos
+        evento.descripcion = descripcion.strip()
+
+        self.repositorio.actualizar(evento)
+        return True, "Show actualizado correctamente."
+
+    def aumentar_capacidad(
+        self,
+        evento_id: int,
+        agregar_general: int,
+        agregar_preferencial: int,
+        agregar_vip: int,
+    ) -> Tuple[bool, str]:
+        evento = self.repositorio.obtener_por_id(evento_id)
+        if evento is None:
+            return False, "No existe el show seleccionado."
+
+        if agregar_general < 0 or agregar_preferencial < 0 or agregar_vip < 0:
+            return False, "Los asientos a agregar no pueden ser negativos."
+        if agregar_general == 0 and agregar_preferencial == 0 and agregar_vip == 0:
+            return False, "Debes agregar asientos en al menos una zona."
+
+        evento.capacidad_por_zona["General"] = evento.capacidad_por_zona.get("General", 0) + agregar_general
+        evento.capacidad_por_zona["Preferencial"] = (
+            evento.capacidad_por_zona.get("Preferencial", 0) + agregar_preferencial
+        )
+        evento.capacidad_por_zona["VIP"] = evento.capacidad_por_zona.get("VIP", 0) + agregar_vip
+
+        self.repositorio.actualizar(evento)
+        return True, "Capacidad actualizada correctamente."
+
     def eliminar_evento(self, evento_id: int, tiene_tickets: bool) -> Tuple[bool, str]:
         if tiene_tickets:
             return False, "No se puede eliminar el show porque ya tiene ventas registradas."
