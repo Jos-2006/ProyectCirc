@@ -2,7 +2,7 @@
 from typing import List, Optional
 
 from model.evento import Evento
-from repository.base_repository import BaseRepository
+from repo.base_repository import BaseRepository
 
 
 class EventoRepository(BaseRepository[Evento]):
@@ -23,3 +23,4 @@ class EventoRepository(BaseRepository[Evento]):
     def obtener_ultimo_id(self) -> int:
         eventos = self._leer()
         return max((evento.identificador for evento in eventos), default=0)
+

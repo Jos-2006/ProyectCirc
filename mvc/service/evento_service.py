@@ -2,7 +2,7 @@
 from typing import Dict, List, Optional, Tuple
 
 from model.evento import Evento
-from repository.evento_repository import EventoRepository
+from repo.evento_repository import EventoRepository
 
 
 class EventoService:
@@ -239,3 +239,4 @@ class EventoService:
                 agregados += 1
 
         return agregados
+

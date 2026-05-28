@@ -2,7 +2,7 @@
 from typing import List, Optional
 
 from model.ticket import Ticket
-from repository.base_repository import BaseRepository
+from repo.base_repository import BaseRepository
 
 
 class TicketRepository(BaseRepository[Ticket]):
@@ -31,3 +31,4 @@ class TicketRepository(BaseRepository[Ticket]):
     def obtener_por_zona(self, zona: str) -> List[Ticket]:
         zona_buscada = zona.strip().lower()
         return [ticket for ticket in self._leer() if ticket.zona.lower() == zona_buscada]
+

@@ -30,3 +30,4 @@ class Ticket:
             fecha_compra=data.get("fecha_compra", ""),
             metodo_pago=data.get("metodo_pago", "Sin especificar"),
         )
+

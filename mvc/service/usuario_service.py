@@ -1,7 +1,7 @@
 ﻿from typing import Optional
 
 from model.usuario import Usuario
-from repository.usuario_repository import UsuarioRepository
+from repo.usuario_repository import UsuarioRepository
 
 
 class UsuarioService:
@@ -89,3 +89,4 @@ class UsuarioService:
 
     def obtener_por_id(self, usuario_id: int) -> Optional[Usuario]:
         return self.repositorio.obtener_por_id(usuario_id)
+

@@ -1,8 +1,8 @@
 ﻿from typing import Optional
 
 from model.ticket import Ticket
-from services.evento_service import EventoService
-from services.ticket_service import TicketService
+from service.evento_service import EventoService
+from service.ticket_service import TicketService
 
 
 class ClienteController:
@@ -41,3 +41,4 @@ class ClienteController:
 
     def tickets_del_usuario(self, usuario_id: int):
         return self.ticket_service.tickets_por_usuario(usuario_id)
+

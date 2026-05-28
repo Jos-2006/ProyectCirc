@@ -26,3 +26,4 @@ class Usuario:
             rol=data.get("rol", "Cliente"),
             direccion=data.get("direccion"),
         )
+

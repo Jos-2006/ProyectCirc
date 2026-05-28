@@ -447,3 +447,4 @@ class AdminMenu:
         texto.pack(fill="both", expand=True, padx=10, pady=10)
         texto.insert("1.0", contenido)
         texto.config(state=tk.DISABLED)
+

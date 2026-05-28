@@ -32,3 +32,4 @@ class Evento:
             precios_por_zona=dict(data.get("precios_por_zona", {})),
             capacidad_por_zona=dict(data.get("capacidad_por_zona", {})),
         )
+

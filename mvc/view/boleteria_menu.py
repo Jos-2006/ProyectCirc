@@ -192,3 +192,4 @@ class BoleteriaMenu:
             f"Ticket #{ticket.identificador} | Zona {ticket.zona} | Asiento {ticket.numero_asiento}",
         )
         self._on_event_select(None)
+

@@ -2,7 +2,7 @@
 from typing import Optional
 
 from model.usuario import Usuario
-from repository.base_repository import BaseRepository
+from repo.base_repository import BaseRepository
 
 
 class UsuarioRepository(BaseRepository[Usuario]):
@@ -20,3 +20,4 @@ class UsuarioRepository(BaseRepository[Usuario]):
     def obtener_ultimo_id(self) -> int:
         usuarios = self._leer()
         return max((usuario.identificador for usuario in usuarios), default=0)
+

@@ -5,3 +5,4 @@ from .ticket_repository import TicketRepository
 from .usuario_repository import UsuarioRepository
 
 __all__ = ["UsuarioRepository", "EventoRepository", "TicketRepository"]
+

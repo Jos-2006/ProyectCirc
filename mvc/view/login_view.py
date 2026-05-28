@@ -170,3 +170,4 @@ class RegistroView:
 
         messagebox.showinfo("Registro exitoso", "Tu cuenta fue creada correctamente.")
         self.ventana.destroy()
+

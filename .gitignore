@@ -8,6 +8,3 @@ __pycache__/
 # Temporal local
 _tmp_zip/
 _pdf_texts/
-
-# Respaldo local no versionado
-mvc/

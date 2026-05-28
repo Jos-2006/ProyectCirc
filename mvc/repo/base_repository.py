@@ -71,3 +71,4 @@ class BaseRepository(Generic[T]):
         self._escribir(filtradas)
         return True
 
+

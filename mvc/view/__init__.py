@@ -6,3 +6,4 @@ from .cliente_menu import ClienteMenu
 from .login_view import LoginView
 
 __all__ = ["LoginView", "AdminMenu", "ClienteMenu", "BoleteriaMenu"]
+

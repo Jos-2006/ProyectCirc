@@ -3,12 +3,18 @@ from typing import Dict, List, Optional, Tuple
 
 from model.evento import Evento
 from model.ticket import Ticket
-from repository.evento_repository import EventoRepository
-from repository.ticket_repository import TicketRepository
+from repo.evento_repository import EventoRepository
+from repo.ticket_repository import TicketRepository
 
 
 class TicketService:
     """Logica de venta y reportes de boletos."""
+
+    MAPA_ZONAS = {
+        "general": "General",
+        "preferencial": "Preferencial",
+        "vip": "VIP",
+    }
 
     def __init__(
         self,
@@ -37,7 +43,7 @@ class TicketService:
         if evento is None:
             return False, "El show seleccionado no existe.", None
 
-        zona_limpia = zona.strip().title()
+        zona_limpia = self.MAPA_ZONAS.get(zona.strip().lower(), "")
         if zona_limpia not in evento.capacidad_por_zona:
             return False, "Zona invalida.", None
 
@@ -160,3 +166,4 @@ class TicketService:
         reporte_base = self.reporte_general(eventos_filtrados)
         reporte_base["fecha_consultada"] = fecha
         return reporte_base
+

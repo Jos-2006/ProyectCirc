@@ -1,8 +1,8 @@
 ﻿from typing import Optional
 
 from model.evento import Evento
-from services.evento_service import EventoService
-from services.ticket_service import TicketService
+from service.evento_service import EventoService
+from service.ticket_service import TicketService
 
 
 class AdminController:
@@ -87,3 +87,4 @@ class AdminController:
 
     def buscar_ticket(self, ticket_id: int):
         return self.ticket_service.obtener_ticket(ticket_id)
+

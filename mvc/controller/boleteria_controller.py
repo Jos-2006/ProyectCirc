@@ -1,8 +1,8 @@
 ﻿from typing import Optional
 
 from model.ticket import Ticket
-from services.evento_service import EventoService
-from services.ticket_service import TicketService
+from service.evento_service import EventoService
+from service.ticket_service import TicketService
 
 
 class BoleteriaController:
@@ -37,3 +37,4 @@ class BoleteriaController:
             metodo_pago=metodo_pago,
             usuario_id=None,
         )
+

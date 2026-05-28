@@ -1,7 +1,7 @@
 ﻿from typing import Optional
 
 from model.usuario import Usuario
-from services.usuario_service import UsuarioService
+from service.usuario_service import UsuarioService
 
 
 class AuthController:
@@ -29,3 +29,4 @@ class AuthController:
 
     def cambiar_contrasena(self, correo: str, nueva_contrasena: str) -> bool:
         return self.servicio_usuarios.actualizar_contrasena(correo, nueva_contrasena)
+

@@ -1,6 +1,6 @@
 ﻿# ProyectCirc
 
-Sistema de boleteria y gestion de shows para un circo, desarrollado en Python con arquitectura MVC + Repository + Services, persistencia en JSON y GUI modular con Tkinter.
+Sistema de boleteria y gestion de shows para un circo, desarrollado en Python con arquitectura MVC, persistencia en JSON y GUI modular con Tkinter.
 
 ## Objetivo del proyecto
 
@@ -16,24 +16,25 @@ Estructura usada (segun lo solicitado):
 
 ```text
 ProyectCirc/
-├── model/
-├── repository/
-├── services/
-├── controller/
-├── view/
-├── data/
-├── main.py
+├── mvc/
+│   ├── controller/
+│   ├── model/
+│   ├── view/
+│   ├── repo/
+│   ├── service/
+│   ├── data/
+│   └── main.py
 └── README.md
 ```
 
 ### Capas
 
-- `model`: entidades `Usuario`, `Evento`, `Ticket`.
-- `repository`: persistencia JSON por entidad (`usuarios.json`, `eventos.json`, `tickets.json`).
-- `services`: logica de negocio (validaciones, horarios, aforo, ventas, reportes).
-- `controller`: coordinacion entre GUI y servicios.
-- `view`: interfaz grafica modular por rol (`Login`, `Admin`, `Cliente`, `Boleteria`).
-- `main.py`: punto de entrada y enrutamiento por rol.
+- `mvc/model`: entidades `Usuario`, `Evento`, `Ticket`.
+- `mvc/repo`: persistencia JSON por entidad (`usuarios.json`, `eventos.json`, `tickets.json`).
+- `mvc/service`: logica de negocio (validaciones, horarios, aforo, ventas, reportes).
+- `mvc/controller`: coordinacion entre GUI y servicios.
+- `mvc/view`: interfaz grafica modular por rol (`Login`, `Admin`, `Cliente`, `Boleteria`).
+- `mvc/main.py`: punto de entrada y enrutamiento por rol.
 
 ## Funcionalidades principales
 
@@ -72,7 +73,7 @@ Credenciales demo:
   - venta rapida en taquilla
   - disponibilidad en tiempo real
 
-### 3. Procesos de negocio (Services)
+### 3. Procesos de negocio (Service)
 
 - validacion de credenciales y reglas de registro
 - validacion de fecha/hora de shows
@@ -113,7 +114,7 @@ Credenciales demo:
 Requisito: Python 3.10+.
 
 ```bash
-python main.py
+python mvc/main.py
 ```
 
 ## Restricciones cumplidas
