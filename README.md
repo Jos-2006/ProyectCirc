@@ -1,0 +1,124 @@
+﻿# ProyectCirc
+
+Sistema de boleteria y gestion de shows para un circo, desarrollado en Python con arquitectura MVC + Repository + Services, persistencia en JSON y GUI modular con Tkinter.
+
+## Objetivo del proyecto
+
+Resolver problemas operativos del circo:
+
+- choques de horarios entre funciones
+- sobreventa por control manual del aforo
+- poca trazabilidad de ventas y recaudacion
+
+## Arquitectura implementada
+
+Estructura usada (segun lo solicitado):
+
+```text
+ProyectCirc/
+├── model/
+├── repository/
+├── services/
+├── controller/
+├── view/
+├── data/
+├── main.py
+└── README.md
+```
+
+### Capas
+
+- `model`: entidades `Usuario`, `Evento`, `Ticket`.
+- `repository`: persistencia JSON por entidad (`usuarios.json`, `eventos.json`, `tickets.json`).
+- `services`: logica de negocio (validaciones, horarios, aforo, ventas, reportes).
+- `controller`: coordinacion entre GUI y servicios.
+- `view`: interfaz grafica modular por rol (`Login`, `Admin`, `Cliente`, `Boleteria`).
+- `main.py`: punto de entrada y enrutamiento por rol.
+
+## Funcionalidades principales
+
+### 1. Login y control de acceso
+
+- inicio de sesion por rol: `Administrador`, `Cajero`, `Cliente`
+- registro de clientes desde GUI
+- acceso restringido a funcionalidades segun rol
+
+Credenciales demo:
+
+- Admin: `admin@circo.com / admin123`
+- Cajero: `cajero@circo.com / cajero123`
+- Cliente: `cliente@circo.com / cliente123`
+
+### 2. Modulos funcionales
+
+- **Administrador**
+  - registrar shows
+  - consulta individual de show
+  - listado en tabla
+  - eliminar show (si no tiene ventas)
+  - actualizar precios por zona
+  - cargar shows demo
+
+- **Cliente**
+  - cartelera digital
+  - consulta individual de show
+  - compra de entradas por zona
+  - visualizacion de asientos disponibles
+  - historial de tickets del cliente
+
+- **Boleteria (Cajero)**
+  - listado de shows
+  - consulta individual de show
+  - venta rapida en taquilla
+  - disponibilidad en tiempo real
+
+### 3. Procesos de negocio (Services)
+
+- validacion de credenciales y reglas de registro
+- validacion de fecha/hora de shows
+- deteccion de choque de horarios
+- control de aforo por zona (VIP/Preferencial/General)
+- asignacion automatica de asiento
+- calculo de precios y recaudacion
+
+### 4. Reportes en GUI
+
+- reporte por show (ventas por zona, ocupacion, recaudacion)
+- reporte general (totales, categoria mas vendida, top ocupacion)
+- reporte filtrado por fecha
+- consulta individual de ticket por ID
+
+## Persistencia JSON
+
+- almacenamiento en archivos separados por entidad
+- carga automatica al iniciar
+- guardado automatico al registrar/actualizar datos
+
+## Evidencia de SOLID y buenas practicas
+
+- **Single Responsibility**: cada capa tiene responsabilidad unica.
+- **Open/Closed (parcial)**: servicios listos para extender reglas sin tocar GUI.
+- **Dependency Inversion (basico)**: controladores dependen de servicios, no de JSON directo.
+- bajo acoplamiento y sin mezclar logica de negocio en vistas.
+
+## Estructuras de datos usadas
+
+- listas: colecciones de eventos, tickets y usuarios
+- diccionarios: precios/capacidades y reportes
+- tuplas: ventanas de tiempo para validar choques
+- conjuntos: asientos ocupados y control de duplicados en carga demo
+
+## Ejecucion
+
+Requisito: Python 3.10+.
+
+```bash
+python main.py
+```
+
+## Restricciones cumplidas
+
+- sin frameworks externos de GUI
+- sin clase gigante unica
+- sin mezclar logica de negocio con interfaz
+- sin duplicacion innecesaria de logica
