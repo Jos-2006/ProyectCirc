@@ -226,7 +226,7 @@ class EventoService:
 
     def listar_eventos(self) -> List[Evento]:
         eventos = self.repositorio.obtener_todos()
-        return sorted(eventos, key=lambda evento: (evento.fecha, evento.hora_inicio, evento.nombre.lower()))
+        return sorted(eventos, key=lambda evento: evento.identificador)
 
     def listar_eventos_por_fecha(self, fecha: str) -> List[Evento]:
         return sorted(self.repositorio.obtener_por_fecha(fecha), key=lambda evento: evento.hora_inicio)
