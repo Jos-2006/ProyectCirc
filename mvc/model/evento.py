@@ -1,27 +1,45 @@
-﻿from dataclasses import asdict, dataclass
-from typing import Dict
+﻿from typing import Dict
 
 
-@dataclass
 class Evento:
-    """Entidad de show/funcion del circo."""
-
-    identificador: int
-    nombre: str
-    categoria: str
-    fecha: str
-    hora_inicio: str
-    duracion_minutos: int
-    descripcion: str
-    precios_por_zona: Dict[str, float]
-    capacidad_por_zona: Dict[str, int]
+    def __init__(
+        self,
+        identificador: int,
+        nombre: str,
+        categoria: str,
+        fecha: str,
+        hora_inicio: str,
+        duracion_minutos: int,
+        descripcion: str,
+        precios_por_zona: Dict[str, float],
+        capacidad_por_zona: Dict[str, int],
+    ) -> None:
+        self.identificador = identificador
+        self.nombre = nombre
+        self.categoria = categoria
+        self.fecha = fecha
+        self.hora_inicio = hora_inicio
+        self.duracion_minutos = duracion_minutos
+        self.descripcion = descripcion
+        self.precios_por_zona = precios_por_zona
+        self.capacidad_por_zona = capacidad_por_zona
 
     def to_dict(self) -> dict:
-        return asdict(self)
+        return {
+            "identificador": self.identificador,
+            "nombre": self.nombre,
+            "categoria": self.categoria,
+            "fecha": self.fecha,
+            "hora_inicio": self.hora_inicio,
+            "duracion_minutos": self.duracion_minutos,
+            "descripcion": self.descripcion,
+            "precios_por_zona": self.precios_por_zona,
+            "capacidad_por_zona": self.capacidad_por_zona,
+        }
 
-    @staticmethod
-    def from_dict(data: dict) -> "Evento":
-        return Evento(
+    @classmethod
+    def from_dict(cls, data: dict) -> "Evento":
+        return cls(
             identificador=int(data.get("identificador", 0)),
             nombre=data.get("nombre", "").strip(),
             categoria=data.get("categoria", "General").strip() or "General",
@@ -33,3 +51,8 @@ class Evento:
             capacidad_por_zona=dict(data.get("capacidad_por_zona", {})),
         )
 
+    def __repr__(self) -> str:
+        return (
+            f"Evento(identificador={self.identificador!r}, nombre={self.nombre!r}, "
+            f"fecha={self.fecha!r}, hora_inicio={self.hora_inicio!r})"
+        )

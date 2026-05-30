@@ -11,16 +11,16 @@ class EventoRepository(BaseRepository[Evento]):
         super().__init__(ruta, Evento)
 
     def obtener_por_fecha(self, fecha: str) -> List[Evento]:
-        return [evento for evento in self._leer() if evento.fecha == fecha]
+        return [evento for evento in self.get_all() if evento.fecha == fecha]
 
     def obtener_por_nombre(self, nombre: str) -> Optional[Evento]:
         nombre_buscado = nombre.strip().lower()
-        for evento in self._leer():
+        for evento in self.get_all():
             if evento.nombre.lower() == nombre_buscado:
                 return evento
         return None
 
     def obtener_ultimo_id(self) -> int:
-        eventos = self._leer()
+        eventos = self.get_all()
         return max((evento.identificador for evento in eventos), default=0)
 
