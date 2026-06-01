@@ -112,5 +112,24 @@
       "Preferencial": 15,
       "General": 15
     }
+  },
+  {
+    "identificador": 8,
+    "nombre": "musas",
+    "categoria": "Musical",
+    "fecha": "2007-05-26",
+    "hora_inicio": "17:00",
+    "duracion_minutos": 40,
+    "descripcion": "obra musical",
+    "precios_por_zona": {
+      "General": 2500.0,
+      "Preferencial": 3500.0,
+      "VIP": 5000.0
+    },
+    "capacidad_por_zona": {
+      "VIP": 10,
+      "Preferencial": 15,
+      "General": 15
+    }
   }
 ]
