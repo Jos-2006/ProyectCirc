@@ -12,21 +12,21 @@ class UsuarioService:
     def __init__(self, repositorio: Optional[UsuarioRepository] = None) -> None:
         self.repositorio = repositorio or UsuarioRepository()
         self._asegurar_usuarios_base()
-
+#---------------------------------------------------------------------------
     def _asegurar_usuarios_base(self) -> None:
         usuarios_base = [
             ("Admin Principal", "admin@circo.com", "admin123", "Administrador"),
             ("Cajero Principal", "cajero@circo.com", "cajero123", "Cajero"),
             ("Cliente Demo", "cliente@circo.com", "cliente123", "Cliente")]
-
+#---------------------------------------------------------------------------
         for nombre, correo, clave, rol in usuarios_base:
             if self.repositorio.obtener_por_correo(correo) is None:
                 self.registrar_usuario(nombre, correo, clave, rol)
-
+#---------------------------------------------------------------------------
     def _correo_valido(self, correo: str) -> bool:
         correo_limpio = correo.strip()
         return "@" in correo_limpio and "." in correo_limpio.split("@")[-1]
-
+#---------------------------------------------------------------------------
     def registrar_usuario(
         self,
         nombre_completo: str,
@@ -61,7 +61,7 @@ class UsuarioService:
             direccion=direccion)
         self.repositorio.agregar(usuario)
         return usuario
-
+#---------------------------------------------------------------------------
     def autenticar(self, correo_electronico: str, contrasena: str) -> Optional[Usuario]:
         correo = correo_electronico.strip().lower()
         clave = contrasena.strip()
@@ -70,7 +70,7 @@ class UsuarioService:
         if usuario and usuario.contrasena == clave:
             return usuario
         return None
-
+#---------------------------------------------------------------------------
     def actualizar_contrasena(self, correo_electronico: str, nueva_contrasena: str) -> bool:
         correo = correo_electronico.strip().lower()
         clave_nueva = nueva_contrasena.strip()
@@ -83,10 +83,10 @@ class UsuarioService:
 
         usuario.contrasena = clave_nueva
         return self.repositorio.actualizar(usuario)
-
+#---------------------------------------------------------------------------
     def listar_usuarios(self) -> list[Usuario]:
         return self.repositorio.obtener_todos()
-
+#---------------------------------------------------------------------------
     def obtener_por_id(self, usuario_id: int) -> Optional[Usuario]:
         return self.repositorio.obtener_por_id(usuario_id)
 
