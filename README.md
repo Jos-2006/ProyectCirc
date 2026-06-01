@@ -123,3 +123,7 @@ python mvc/main.py
 - sin clase gigante unica
 - sin mezclar logica de negocio con interfaz
 - sin duplicacion innecesaria de logica
+
+## Nota sobre commits
+
+Durante el desarrollo se utilizo una convencion de mensajes de commit para documentar de forma clara y ordenada los cambios del proyecto, tal como se practica en proyectos de mayor alcance.
