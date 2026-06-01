@@ -12,8 +12,7 @@ class EventoService:
     DISTRIBUCION_ZONAS = {
         "VIP": 10,
         "Preferencial": 15,
-        "General": 15,
-    }
+        "General": 15}
     PRECIO_MINIMO_GENERAL = 2500.0
     ZONAS_ORDEN = ("VIP", "Preferencial", "General")
 
@@ -35,8 +34,8 @@ class EventoService:
         categoria: str,
         fecha: str,
         hora_inicio: str,
-        duracion_minutos: int,
-    ) -> Tuple[bool, str]:
+        duracion_minutos: int) -> Tuple[bool, str]:
+
         if not nombre.strip():
             return False, "El nombre del show es obligatorio."
         if not categoria.strip():
@@ -61,8 +60,8 @@ class EventoService:
         fecha: str,
         hora_inicio: str,
         duracion_minutos: int,
-        evento_excluir_id: Optional[int] = None,
-    ) -> bool:
+        evento_excluir_id: Optional[int] = None) -> bool:
+
         nuevo_inicio = self._parse_hora(hora_inicio)
         nuevo_fin = nuevo_inicio + timedelta(minutes=duracion_minutos)
 
@@ -84,8 +83,8 @@ class EventoService:
         base = {
             "General": self.PRECIO_MINIMO_GENERAL,
             "Preferencial": self.PRECIO_MINIMO_GENERAL * 1.4,
-            "VIP": self.PRECIO_MINIMO_GENERAL * 2,
-        }
+            "VIP": self.PRECIO_MINIMO_GENERAL * 2}
+
         if not precios_por_zona:
             return base
 
@@ -111,8 +110,8 @@ class EventoService:
         hora_inicio: str,
         duracion_minutos: int,
         descripcion: str,
-        precios_por_zona: Optional[Dict[str, float]] = None,
-    ) -> Tuple[bool, str, Optional[Evento]]:
+        precios_por_zona: Optional[Dict[str, float]] = None) -> Tuple[bool, str, Optional[Evento]]:
+
         valido, mensaje = self._validar_entrada_evento(nombre, categoria, fecha, hora_inicio, duracion_minutos)
         if not valido:
             return False, mensaje, None
@@ -130,8 +129,8 @@ class EventoService:
             duracion_minutos=duracion_minutos,
             descripcion=descripcion.strip(),
             precios_por_zona=self._normalizar_precios(precios_por_zona),
-            capacidad_por_zona=self.DISTRIBUCION_ZONAS.copy(),
-        )
+            capacidad_por_zona=self.DISTRIBUCION_ZONAS.copy())
+
         self.repositorio.agregar(evento)
         return True, "Show programado correctamente.", evento
 
@@ -140,8 +139,8 @@ class EventoService:
         evento_id: int,
         precio_general: float,
         precio_preferencial: float,
-        precio_vip: float,
-    ) -> Tuple[bool, str]:
+        precio_vip: float) -> Tuple[bool, str]:
+
         evento = self.repositorio.obtener_por_id(evento_id)
         if evento is None:
             return False, "No existe el show seleccionado."
@@ -149,8 +148,8 @@ class EventoService:
         precios_nuevos = {
             "General": precio_general,
             "Preferencial": precio_preferencial,
-            "VIP": precio_vip,
-        }
+            "VIP": precio_vip}
+
         evento.precios_por_zona = self._normalizar_precios(precios_nuevos)
         self.repositorio.actualizar(evento)
         return True, "Precios actualizados correctamente."
@@ -163,13 +162,14 @@ class EventoService:
         fecha: str,
         hora_inicio: str,
         duracion_minutos: int,
-        descripcion: str,
-    ) -> Tuple[bool, str]:
+        descripcion: str) -> Tuple[bool, str]:
+
         evento = self.repositorio.obtener_por_id(evento_id)
         if evento is None:
             return False, "No existe el show seleccionado."
 
         valido, mensaje = self._validar_entrada_evento(nombre, categoria, fecha, hora_inicio, duracion_minutos)
+
         if not valido:
             return False, mensaje
 
@@ -177,8 +177,7 @@ class EventoService:
             fecha=fecha,
             hora_inicio=hora_inicio,
             duracion_minutos=duracion_minutos,
-            evento_excluir_id=evento_id,
-        ):
+            evento_excluir_id=evento_id):
             return False, "Existe choque de horarios con otro show en la misma fecha."
 
         evento.nombre = nombre.strip()
@@ -196,8 +195,8 @@ class EventoService:
         evento_id: int,
         agregar_general: int,
         agregar_preferencial: int,
-        agregar_vip: int,
-    ) -> Tuple[bool, str]:
+        agregar_vip: int) -> Tuple[bool, str]:
+
         evento = self.repositorio.obtener_por_id(evento_id)
         if evento is None:
             return False, "No existe el show seleccionado."
@@ -209,8 +208,8 @@ class EventoService:
 
         evento.capacidad_por_zona["General"] = evento.capacidad_por_zona.get("General", 0) + agregar_general
         evento.capacidad_por_zona["Preferencial"] = (
-            evento.capacidad_por_zona.get("Preferencial", 0) + agregar_preferencial
-        )
+            evento.capacidad_por_zona.get("Preferencial", 0) + agregar_preferencial)
+
         evento.capacidad_por_zona["VIP"] = evento.capacidad_por_zona.get("VIP", 0) + agregar_vip
 
         self.repositorio.actualizar(evento)
@@ -220,27 +219,39 @@ class EventoService:
         if tiene_tickets:
             return False, "No se puede eliminar el show porque ya tiene ventas registradas."
         eliminado = self.repositorio.eliminar(evento_id)
+
         if not eliminado:
             return False, "No se encontro el show a eliminar."
         return True, "Show eliminado correctamente."
 
+    def _clave_evento_por_id(self, evento: Evento) -> int:
+        return evento.identificador
+
+    def _clave_evento_por_hora(self, evento: Evento) -> str:
+        return evento.hora_inicio
+
     def listar_eventos(self) -> List[Evento]:
         eventos = self.repositorio.obtener_todos()
-        return sorted(eventos, key=lambda evento: evento.identificador)
+        eventos_ordenados = list(eventos)
+        eventos_ordenados.sort(key=self._clave_evento_por_id)
+        return eventos_ordenados
 
     def listar_eventos_por_fecha(self, fecha: str) -> List[Evento]:
-        return sorted(self.repositorio.obtener_por_fecha(fecha), key=lambda evento: evento.hora_inicio)
+        eventos_por_fecha = self.repositorio.obtener_por_fecha(fecha)
+        eventos_ordenados = list(eventos_por_fecha)
+        eventos_ordenados.sort(key=self._clave_evento_por_hora)
+        return eventos_ordenados
 
     def obtener_evento(self, evento_id: int) -> Optional[Evento]:
         return self.repositorio.obtener_por_id(evento_id)
 
     def obtener_eventos_por_categoria(self, categoria: str) -> List[Evento]:
         categoria_buscada = categoria.strip().lower()
-        return [
-            evento
-            for evento in self.listar_eventos()
-            if evento.categoria.lower() == categoria_buscada
-        ]
+        eventos_filtrados = []
+        for evento in self.listar_eventos():
+            if evento.categoria.lower() == categoria_buscada:
+                eventos_filtrados.append(evento)
+        return eventos_filtrados
 
     def cargar_shows_demo(self) -> int:
         shows_demo = [
@@ -250,15 +261,14 @@ class EventoService:
                 "fecha": "2026-06-02",
                 "hora_inicio": "17:00",
                 "duracion_minutos": 90,
-                "descripcion": "Show de telas y trapecio con acrobacias aereas.",
-            },
+                "descripcion": "Show de telas y trapecio con acrobacias aereas."},
             {
                 "nombre": "Risas Sin Red",
                 "categoria": "Comedia",
                 "fecha": "2026-06-02",
                 "hora_inicio": "20:00",
                 "duracion_minutos": 70,
-                "descripcion": "Rutinas de payasos y humor para toda la familia.",
+                "descripcion": "Rutinas de payasos y humor para toda la familia."
             },
             {
                 "nombre": "Noche de Fuego",
@@ -266,7 +276,7 @@ class EventoService:
                 "fecha": "2026-06-03",
                 "hora_inicio": "19:30",
                 "duracion_minutos": 80,
-                "descripcion": "Malabares de fuego y efectos de luz sincronizados.",
+                "descripcion": "Malabares de fuego y efectos de luz sincronizados."
             },
             {
                 "nombre": "Ilusion Total",
@@ -274,29 +284,29 @@ class EventoService:
                 "fecha": "2026-06-04",
                 "hora_inicio": "18:30",
                 "duracion_minutos": 75,
-                "descripcion": "Grandes actos de magia e ilusionismo en escena.",
-            },
-        ]
+                "descripcion": "Grandes actos de magia e ilusionismo en escena."
+            }]
 
-        existentes = {
-            (evento.nombre.lower(), evento.fecha, evento.hora_inicio)
-            for evento in self.listar_eventos()
-        }
+        existentes = set()
+        for evento in self.listar_eventos():
+            llave_evento = (evento.nombre.lower(), evento.fecha, evento.hora_inicio)
+            existentes.add(llave_evento)
 
         agregados = 0
+        
         for show in shows_demo:
             llave = (show["nombre"].lower(), show["fecha"], show["hora_inicio"])
             if llave in existentes:
                 continue
-            ok, _, _ = self.programar_evento(
+            resultado_programacion = self.programar_evento(
                 nombre=show["nombre"],
                 categoria=show["categoria"],
                 fecha=show["fecha"],
                 hora_inicio=show["hora_inicio"],
                 duracion_minutos=show["duracion_minutos"],
-                descripcion=show["descripcion"],
-            )
-            if ok:
+                descripcion=show["descripcion"])
+            exito = resultado_programacion[0]
+            if exito:
                 agregados += 1
 
         return agregados

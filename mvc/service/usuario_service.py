@@ -17,8 +17,8 @@ class UsuarioService:
         usuarios_base = [
             ("Admin Principal", "admin@circo.com", "admin123", "Administrador"),
             ("Cajero Principal", "cajero@circo.com", "cajero123", "Cajero"),
-            ("Cliente Demo", "cliente@circo.com", "cliente123", "Cliente"),
-        ]
+            ("Cliente Demo", "cliente@circo.com", "cliente123", "Cliente")]
+
         for nombre, correo, clave, rol in usuarios_base:
             if self.repositorio.obtener_por_correo(correo) is None:
                 self.registrar_usuario(nombre, correo, clave, rol)
@@ -33,8 +33,8 @@ class UsuarioService:
         correo_electronico: str,
         contrasena: str,
         rol: str = "Cliente",
-        direccion: Optional[str] = None,
-    ) -> Optional[Usuario]:
+        direccion: Optional[str] = None) -> Optional[Usuario]:
+
         nombre = nombre_completo.strip()
         correo = correo_electronico.strip().lower()
         clave = contrasena.strip()
@@ -58,8 +58,7 @@ class UsuarioService:
             correo_electronico=correo,
             contrasena=clave,
             rol=rol_limpio,
-            direccion=direccion,
-        )
+            direccion=direccion)
         self.repositorio.agregar(usuario)
         return usuario
 
@@ -67,6 +66,7 @@ class UsuarioService:
         correo = correo_electronico.strip().lower()
         clave = contrasena.strip()
         usuario = self.repositorio.obtener_por_correo(correo)
+
         if usuario and usuario.contrasena == clave:
             return usuario
         return None

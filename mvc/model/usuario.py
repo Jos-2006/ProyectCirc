@@ -9,7 +9,7 @@ class Usuario:
         correo_electronico: str,
         contrasena: str,
         rol: str,
-        direccion: Optional[str] = None,
+        direccion: Optional[str] = None
     ) -> None:
         self.identificador = identificador
         self.nombre_completo = nombre_completo
@@ -25,7 +25,7 @@ class Usuario:
             "correo_electronico": self.correo_electronico,
             "contrasena": self.contrasena,
             "rol": self.rol,
-            "direccion": self.direccion,
+            "direccion": self.direccion
         }
 
     @classmethod
@@ -36,7 +36,7 @@ class Usuario:
             correo_electronico=data.get("correo_electronico", "").strip(),
             contrasena=data.get("contrasena", ""),
             rol=data.get("rol", "Cliente"),
-            direccion=data.get("direccion"),
+            direccion=data.get("direccion")
         )
 
     def __repr__(self) -> str:

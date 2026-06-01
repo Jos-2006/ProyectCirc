@@ -9,6 +9,6 @@ __all__ = [
     "AuthController",
     "AdminController",
     "ClienteController",
-    "BoleteriaController",
+    "BoleteriaController"
 ]
 

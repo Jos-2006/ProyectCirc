@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "identificador": 1,
     "evento_id": 1,
@@ -8,5 +8,145 @@
     "precio": 5000.0,
     "fecha_compra": "2026-05-25 19:51:32",
     "metodo_pago": "Tarjeta"
+  },
+  {
+    "identificador": 2,
+    "evento_id": 5,
+    "usuario_id": 3,
+    "zona": "VIP",
+    "numero_asiento": 1,
+    "precio": 5000.0,
+    "fecha_compra": "2026-05-31 18:51:26",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 3,
+    "evento_id": 5,
+    "usuario_id": 3,
+    "zona": "VIP",
+    "numero_asiento": 2,
+    "precio": 5000.0,
+    "fecha_compra": "2026-05-31 18:51:29",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 4,
+    "evento_id": 7,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 1,
+    "precio": 2500.0,
+    "fecha_compra": "2026-05-31 18:51:46",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 5,
+    "evento_id": 7,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 1,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:49",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 6,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 1,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:52",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 7,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 2,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:54",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 8,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 3,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:56",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 9,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 4,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:57",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 10,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 5,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:58",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 11,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 6,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:51:59",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 12,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 7,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:52:01",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 13,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 8,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:52:02",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 14,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 9,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:52:04",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 15,
+    "evento_id": 6,
+    "usuario_id": null,
+    "zona": "Preferencial",
+    "numero_asiento": 10,
+    "precio": 3500.0,
+    "fecha_compra": "2026-05-31 18:52:05",
+    "metodo_pago": "Efectivo"
   }
 ]

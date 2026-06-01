@@ -11,7 +11,7 @@ class BoleteriaController:
     def __init__(
         self,
         evento_service: Optional[EventoService] = None,
-        ticket_service: Optional[TicketService] = None,
+        ticket_service: Optional[TicketService] = None
     ) -> None:
         self.evento_service = evento_service or EventoService()
         self.ticket_service = ticket_service or TicketService()
@@ -29,12 +29,12 @@ class BoleteriaController:
         self,
         evento_id: int,
         zona: str,
-        metodo_pago: str,
+        metodo_pago: str
     ) -> tuple[bool, str, Optional[Ticket]]:
         return self.ticket_service.vender_ticket(
             evento_id=evento_id,
             zona=zona,
             metodo_pago=metodo_pago,
-            usuario_id=None,
+            usuario_id=None
         )
 

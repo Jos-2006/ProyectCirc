@@ -18,13 +18,13 @@ class AuthController:
         nombre: str,
         correo: str,
         contrasena: str,
-        rol: str = "Cliente",
+        rol: str = "Cliente"
     ) -> Optional[Usuario]:
         return self.servicio_usuarios.registrar_usuario(
             nombre_completo=nombre,
             correo_electronico=correo,
             contrasena=contrasena,
-            rol=rol,
+            rol=rol
         )
 
     def cambiar_contrasena(self, correo: str, nueva_contrasena: str) -> bool:

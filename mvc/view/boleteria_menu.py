@@ -24,7 +24,7 @@ class BoleteriaMenu:
             text="Cajero",
             bg="#1E4A8C",
             fg="white",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 14, "bold")
         ).pack(pady=(20, 8))
 
         tk.Button(
@@ -33,7 +33,7 @@ class BoleteriaMenu:
             command=self._cargar_eventos,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(0, 6))
 
         tk.Button(
@@ -42,7 +42,7 @@ class BoleteriaMenu:
             command=self.logout_callback,
             bg="#B00020",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(20, 0))
 
         self.content = tk.Frame(self.root, bg="white")
@@ -56,7 +56,7 @@ class BoleteriaMenu:
             "categoria": "Categoria",
             "fecha": "Fecha",
             "hora": "Hora",
-            "general": "Precio G",
+            "general": "Precio G"
         }
         for col in columnas:
             self.tree_eventos.heading(col, text=titulos[col])
@@ -76,7 +76,7 @@ class BoleteriaMenu:
                 text=zona,
                 value=zona,
                 variable=self.zona_var,
-                bg="white",
+                bg="white"
             ).grid(row=0, column=idx, padx=3, pady=4)
 
         tk.Label(venta, text="Metodo pago", bg="white").grid(row=1, column=0, padx=6, pady=4)
@@ -84,7 +84,7 @@ class BoleteriaMenu:
             venta,
             values=["Efectivo", "Tarjeta", "Transferencia"],
             state="readonly",
-            width=20,
+            width=20
         )
         self.combo_pago.set("Efectivo")
         self.combo_pago.grid(row=1, column=1, columnspan=2, sticky="w", padx=3, pady=4)
@@ -98,7 +98,7 @@ class BoleteriaMenu:
             command=self._ver_detalle_show,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).grid(row=0, column=4, padx=6, pady=4)
 
         tk.Button(
@@ -107,7 +107,7 @@ class BoleteriaMenu:
             command=self._vender,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).grid(row=1, column=4, padx=6, pady=4)
 
         self._cargar_eventos()
@@ -133,8 +133,8 @@ class BoleteriaMenu:
                     evento.categoria,
                     evento.fecha,
                     evento.hora_inicio,
-                    f"{evento.precios_por_zona.get('General', 0):.0f}",
-                ),
+                    f"{evento.precios_por_zona.get('General', 0):.0f}"
+                )
             )
 
     def _on_event_select(self, _event) -> None:
@@ -181,7 +181,7 @@ class BoleteriaMenu:
         ok, mensaje, ticket = self.controller.vender_ticket(
             evento_id=evento_id,
             zona=self.zona_var.get(),
-            metodo_pago=self.combo_pago.get().strip(),
+            metodo_pago=self.combo_pago.get().strip()
         )
         if not ok or ticket is None:
             messagebox.showerror("Venta no realizada", mensaje)
@@ -189,7 +189,7 @@ class BoleteriaMenu:
 
         messagebox.showinfo(
             "Venta exitosa",
-            f"Ticket #{ticket.identificador} | Zona {ticket.zona} | Asiento {ticket.numero_asiento}",
+            f"Ticket #{ticket.identificador} | Zona {ticket.zona} | Asiento {ticket.numero_asiento}"
         )
         self._on_event_select(None)
 

@@ -22,7 +22,9 @@ class BaseRepository(Generic[T]):
 
     def _extraer_clave(self, objeto: T) -> Optional[int]:
         clave = getattr(objeto, "identificador", None)
-        return int(clave) if clave is not None else None
+        if clave is None:
+            return None
+        return int(clave)
 
     def _agregar_en_memoria(self, objeto: T) -> None:
         clave = self._extraer_clave(objeto)
@@ -52,10 +54,12 @@ class BaseRepository(Generic[T]):
             self._agregar_en_memoria(objeto)
 
     def _guardar(self) -> None:
-        data = [objeto.to_dict() for objeto in self.lista_elementos]
+        data = []
+        for objeto in self.lista_elementos:
+            data.append(objeto.to_dict())
         self.archivo_json.write_text(
             json.dumps(data, ensure_ascii=False, indent=2),
-            encoding="utf-8",
+            encoding="utf-8"
         )
 
     def _leer(self) -> List[T]:
@@ -100,11 +104,11 @@ class BaseRepository(Generic[T]):
         if objeto is None:
             return False
 
-        self.lista_elementos = [
-            item
-            for item in self.lista_elementos
-            if self._extraer_clave(item) != clave
-        ]
+        elementos_filtrados = []
+        for item in self.lista_elementos:
+            if self._extraer_clave(item) != clave:
+                elementos_filtrados.append(item)
+        self.lista_elementos = elementos_filtrados
         self._guardar()
         return True
 

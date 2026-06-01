@@ -12,7 +12,7 @@ class Evento:
         duracion_minutos: int,
         descripcion: str,
         precios_por_zona: Dict[str, float],
-        capacidad_por_zona: Dict[str, int],
+        capacidad_por_zona: Dict[str, int]
     ) -> None:
         self.identificador = identificador
         self.nombre = nombre
@@ -34,7 +34,7 @@ class Evento:
             "duracion_minutos": self.duracion_minutos,
             "descripcion": self.descripcion,
             "precios_por_zona": self.precios_por_zona,
-            "capacidad_por_zona": self.capacidad_por_zona,
+            "capacidad_por_zona": self.capacidad_por_zona
         }
 
     @classmethod
@@ -48,7 +48,7 @@ class Evento:
             duracion_minutos=int(data.get("duracion_minutos", 0)),
             descripcion=data.get("descripcion", "").strip(),
             precios_por_zona=dict(data.get("precios_por_zona", {})),
-            capacidad_por_zona=dict(data.get("capacidad_por_zona", {})),
+            capacidad_por_zona=dict(data.get("capacidad_por_zona", {}))
         )
 
     def __repr__(self) -> str:

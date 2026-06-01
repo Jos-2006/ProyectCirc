@@ -18,6 +18,9 @@ class UsuarioRepository(BaseRepository[Usuario]):
         return None
 
     def obtener_ultimo_id(self) -> int:
-        usuarios = self.get_all()
-        return max((usuario.identificador for usuario in usuarios), default=0)
+        ultimo_id = 0
+        for usuario in self.get_all():
+            if usuario.identificador > ultimo_id:
+                ultimo_id = usuario.identificador
+        return ultimo_id
 

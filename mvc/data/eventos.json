@@ -38,25 +38,6 @@
     }
   },
   {
-    "identificador": 3,
-    "nombre": "Aereo Estelar",
-    "categoria": "Acrobacia",
-    "fecha": "2026-06-02",
-    "hora_inicio": "17:00",
-    "duracion_minutos": 90,
-    "descripcion": "Show de telas y trapecio con acrobacias aereas.",
-    "precios_por_zona": {
-      "General": 2500.0,
-      "Preferencial": 3500.0,
-      "VIP": 5000.0
-    },
-    "capacidad_por_zona": {
-      "VIP": 10,
-      "Preferencial": 15,
-      "General": 15
-    }
-  },
-  {
     "identificador": 4,
     "nombre": "Risas Sin Red",
     "categoria": "Comedia",
@@ -102,6 +83,25 @@
     "hora_inicio": "18:30",
     "duracion_minutos": 75,
     "descripcion": "Grandes actos de magia e ilusionismo en escena.",
+    "precios_por_zona": {
+      "General": 2500.0,
+      "Preferencial": 3500.0,
+      "VIP": 5000.0
+    },
+    "capacidad_por_zona": {
+      "VIP": 10,
+      "Preferencial": 37,
+      "General": 15
+    }
+  },
+  {
+    "identificador": 7,
+    "nombre": "Trucos de cartas",
+    "categoria": "Acrobacia",
+    "fecha": "2026-06-01",
+    "hora_inicio": "6:00",
+    "duracion_minutos": 80,
+    "descripcion": "Trucos con cartas",
     "precios_por_zona": {
       "General": 2500.0,
       "Preferencial": 3500.0,

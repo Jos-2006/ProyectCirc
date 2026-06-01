@@ -12,6 +12,7 @@ class AdminMenu:
         self.root = root
         self.logout_callback = logout_callback
         self.controller = AdminController()
+        self.ventana_shows = None
         self._construir_gui()
 
     def _construir_gui(self) -> None:
@@ -25,7 +26,7 @@ class AdminMenu:
             text="Administrador",
             bg="#1E4A8C",
             fg="white",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 14, "bold")
         ).pack(pady=(18, 8))
 
         tk.Label(
@@ -34,17 +35,18 @@ class AdminMenu:
             bg="#1E4A8C",
             fg="#DDE6FF",
             font=("Segoe UI", 10),
-            justify="center",
+            justify="center"
         ).pack(pady=(0, 18))
 
-        tk.Button(
+        self.boton_agregar_shows = tk.Button(
             sidebar,
-            text="Cargar shows demo",
-            command=self._cargar_demo,
+            text="ConfigShows",
+            command=self._agregar_shows,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).pack(fill="x", padx=14, pady=(0, 6))
+            relief="flat"
+        )
+        self.boton_agregar_shows.pack(fill="x", padx=14, pady=(0, 6))
 
         tk.Button(
             sidebar,
@@ -52,7 +54,7 @@ class AdminMenu:
             command=self._cargar_eventos,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(0, 6))
 
         tk.Button(
@@ -61,21 +63,27 @@ class AdminMenu:
             command=self.logout_callback,
             bg="#B00020",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(20, 0))
 
         self.content = tk.Frame(self.root, bg="white")
         self.content.pack(side="right", fill="both", expand=True)
 
         self._crear_tabla_eventos()
-        self._crear_formulario_evento()
         self._crear_gestion_precios()
         self._crear_bloque_reportes()
         self._cargar_eventos()
 
     def _crear_tabla_eventos(self) -> None:
-        tabla_frame = tk.LabelFrame(self.content, text="Cartelera de shows", bg="white")
+        tabla_frame = tk.Frame(self.content, bg="white")
         tabla_frame.pack(fill="both", expand=True, padx=14, pady=(10, 6))
+        tk.Label(
+            tabla_frame,
+            text="Cartelera de shows",
+            bg="white",
+            font=("Segoe UI", 10, "bold"),
+            anchor="w"
+        ).pack(fill="x", padx=2, pady=(0, 4))
 
         columnas = ("id", "nombre", "categoria", "fecha", "hora", "duracion", "general")
         self.tree_eventos = ttk.Treeview(tabla_frame, columns=columnas, show="headings", height=8)
@@ -86,46 +94,59 @@ class AdminMenu:
             "fecha": "Fecha",
             "hora": "Hora",
             "duracion": "Duracion",
-            "general": "Precio G",
+            "general": "Precio G"
         }
         for columna in columnas:
             self.tree_eventos.heading(columna, text=encabezados[columna])
             self.tree_eventos.column(columna, width=90, anchor="center")
         self.tree_eventos.column("nombre", width=160, anchor="w")
-        self.tree_eventos.pack(fill="both", expand=True, padx=8, pady=8)
+        self.tree_eventos.pack(fill="both", expand=True)
 
-    def _crear_formulario_evento(self) -> None:
-        form = tk.LabelFrame(self.content, text="Registrar show", bg="white")
-        form.pack(fill="x", padx=14, pady=(0, 6))
+    def _crear_formulario_evento(self, parent) -> None:
+        form = tk.Frame(parent, bg="white")
+        form.pack(fill="both", expand=True, padx=14, pady=10)
+        tk.Label(
+            form,
+            text="Gestion de shows",
+            bg="white",
+            font=("Segoe UI", 10, "bold"),
+            anchor="w"
+        ).grid(row=0, column=0, columnspan=4, sticky="w", padx=5, pady=(0, 5))
+        tk.Label(
+            form,
+            text="Selecciona un show en la tabla principal para cargar, actualizar o eliminar.",
+            bg="white",
+            fg="#505050"
+        ).grid(row=1, column=0, columnspan=4, sticky="w", padx=5, pady=(0, 8))
 
-        tk.Label(form, text="Nombre", bg="white").grid(row=0, column=0, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Nombre", bg="white").grid(row=2, column=0, sticky="w", padx=5, pady=3)
         self.entry_nombre = tk.Entry(form)
-        self.entry_nombre.grid(row=0, column=1, sticky="ew", padx=5, pady=3)
+        self.entry_nombre.grid(row=2, column=1, sticky="ew", padx=5, pady=3)
 
-        tk.Label(form, text="Categoria", bg="white").grid(row=0, column=2, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Categoria", bg="white").grid(row=2, column=2, sticky="w", padx=5, pady=3)
         self.combo_categoria = ttk.Combobox(
             form,
             values=["Acrobacia", "Magia", "Comedia", "Fuego", "Musical"],
-            state="readonly",
+            state="readonly"
         )
         self.combo_categoria.set("Acrobacia")
-        self.combo_categoria.grid(row=0, column=3, sticky="ew", padx=5, pady=3)
+        self.combo_categoria.grid(row=2, column=3, sticky="ew", padx=5, pady=3)
 
-        tk.Label(form, text="Fecha (YYYY-MM-DD)", bg="white").grid(row=1, column=0, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Fecha (YYYY-MM-DD)", bg="white").grid(row=3, column=0, sticky="w", padx=5, pady=3)
         self.entry_fecha = tk.Entry(form)
-        self.entry_fecha.grid(row=1, column=1, sticky="ew", padx=5, pady=3)
+        self.entry_fecha.grid(row=3, column=1, sticky="ew", padx=5, pady=3)
 
-        tk.Label(form, text="Hora (HH:MM)", bg="white").grid(row=1, column=2, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Hora (HH:MM)", bg="white").grid(row=3, column=2, sticky="w", padx=5, pady=3)
         self.entry_hora = tk.Entry(form)
-        self.entry_hora.grid(row=1, column=3, sticky="ew", padx=5, pady=3)
+        self.entry_hora.grid(row=3, column=3, sticky="ew", padx=5, pady=3)
 
-        tk.Label(form, text="Duracion (min)", bg="white").grid(row=2, column=0, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Duracion (min)", bg="white").grid(row=4, column=0, sticky="w", padx=5, pady=3)
         self.entry_duracion = tk.Entry(form)
-        self.entry_duracion.grid(row=2, column=1, sticky="ew", padx=5, pady=3)
+        self.entry_duracion.grid(row=4, column=1, sticky="ew", padx=5, pady=3)
 
-        tk.Label(form, text="Descripcion", bg="white").grid(row=2, column=2, sticky="w", padx=5, pady=3)
+        tk.Label(form, text="Descripcion", bg="white").grid(row=4, column=2, sticky="w", padx=5, pady=3)
         self.entry_descripcion = tk.Entry(form)
-        self.entry_descripcion.grid(row=2, column=3, sticky="ew", padx=5, pady=3)
+        self.entry_descripcion.grid(row=4, column=3, sticky="ew", padx=5, pady=3)
 
         tk.Button(
             form,
@@ -133,8 +154,8 @@ class AdminMenu:
             command=self._programar_evento,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
-        ).grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=6)
+            relief="flat"
+        ).grid(row=5, column=0, columnspan=2, sticky="ew", padx=5, pady=6)
 
         tk.Button(
             form,
@@ -142,8 +163,8 @@ class AdminMenu:
             command=self._cargar_evento_en_formulario,
             bg="#7A8AA8",
             fg="white",
-            relief="flat",
-        ).grid(row=4, column=0, sticky="ew", padx=5, pady=6)
+            relief="flat"
+        ).grid(row=6, column=0, sticky="ew", padx=5, pady=6)
 
         tk.Button(
             form,
@@ -151,8 +172,8 @@ class AdminMenu:
             command=self._actualizar_show,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).grid(row=4, column=1, sticky="ew", padx=5, pady=6)
+            relief="flat"
+        ).grid(row=6, column=1, sticky="ew", padx=5, pady=6)
 
         tk.Button(
             form,
@@ -160,8 +181,8 @@ class AdminMenu:
             command=self._ver_detalle_evento,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).grid(row=3, column=2, sticky="ew", padx=5, pady=6)
+            relief="flat"
+        ).grid(row=5, column=2, sticky="ew", padx=5, pady=6)
 
         tk.Button(
             form,
@@ -169,27 +190,35 @@ class AdminMenu:
             command=self._eliminar_evento,
             bg="#7A8AA8",
             fg="white",
-            relief="flat",
-        ).grid(row=3, column=3, sticky="ew", padx=5, pady=6)
+            relief="flat"
+        ).grid(row=5, column=3, sticky="ew", padx=5, pady=6)
 
         for columna in range(4):
             form.grid_columnconfigure(columna, weight=1)
 
     def _crear_gestion_precios(self) -> None:
-        frame = tk.LabelFrame(self.content, text="Gestion de precios por zona", bg="white")
+        frame = tk.Frame(self.content, bg="white")
+        self.frame_gestion = frame
         frame.pack(fill="x", padx=14, pady=(0, 6))
+        tk.Label(
+            frame,
+            text="Gestion de precios por zona",
+            bg="white",
+            font=("Segoe UI", 10, "bold"),
+            anchor="w"
+        ).grid(row=0, column=0, columnspan=7, sticky="w", padx=5, pady=(0, 4))
 
-        tk.Label(frame, text="General", bg="white").grid(row=0, column=0, padx=5, pady=4)
+        tk.Label(frame, text="General", bg="white").grid(row=1, column=0, padx=5, pady=4)
         self.entry_precio_general = tk.Entry(frame, width=10)
-        self.entry_precio_general.grid(row=0, column=1, padx=5, pady=4)
+        self.entry_precio_general.grid(row=1, column=1, padx=5, pady=4)
 
-        tk.Label(frame, text="Preferencial", bg="white").grid(row=0, column=2, padx=5, pady=4)
+        tk.Label(frame, text="Preferencial", bg="white").grid(row=1, column=2, padx=5, pady=4)
         self.entry_precio_preferencial = tk.Entry(frame, width=10)
-        self.entry_precio_preferencial.grid(row=0, column=3, padx=5, pady=4)
+        self.entry_precio_preferencial.grid(row=1, column=3, padx=5, pady=4)
 
-        tk.Label(frame, text="VIP", bg="white").grid(row=0, column=4, padx=5, pady=4)
+        tk.Label(frame, text="VIP", bg="white").grid(row=1, column=4, padx=5, pady=4)
         self.entry_precio_vip = tk.Entry(frame, width=10)
-        self.entry_precio_vip.grid(row=0, column=5, padx=5, pady=4)
+        self.entry_precio_vip.grid(row=1, column=5, padx=5, pady=4)
 
         tk.Button(
             frame,
@@ -197,20 +226,20 @@ class AdminMenu:
             command=self._actualizar_precios,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).grid(row=0, column=6, padx=8, pady=4)
+            relief="flat"
+        ).grid(row=1, column=6, padx=8, pady=4)
 
-        tk.Label(frame, text="+ General", bg="white").grid(row=1, column=0, padx=5, pady=4)
+        tk.Label(frame, text="+ General", bg="white").grid(row=2, column=0, padx=5, pady=4)
         self.entry_mas_general = tk.Entry(frame, width=10)
-        self.entry_mas_general.grid(row=1, column=1, padx=5, pady=4)
+        self.entry_mas_general.grid(row=2, column=1, padx=5, pady=4)
 
-        tk.Label(frame, text="+ Preferencial", bg="white").grid(row=1, column=2, padx=5, pady=4)
+        tk.Label(frame, text="+ Preferencial", bg="white").grid(row=2, column=2, padx=5, pady=4)
         self.entry_mas_preferencial = tk.Entry(frame, width=10)
-        self.entry_mas_preferencial.grid(row=1, column=3, padx=5, pady=4)
+        self.entry_mas_preferencial.grid(row=2, column=3, padx=5, pady=4)
 
-        tk.Label(frame, text="+ VIP", bg="white").grid(row=1, column=4, padx=5, pady=4)
+        tk.Label(frame, text="+ VIP", bg="white").grid(row=2, column=4, padx=5, pady=4)
         self.entry_mas_vip = tk.Entry(frame, width=10)
-        self.entry_mas_vip.grid(row=1, column=5, padx=5, pady=4)
+        self.entry_mas_vip.grid(row=2, column=5, padx=5, pady=4)
 
         tk.Button(
             frame,
@@ -218,12 +247,20 @@ class AdminMenu:
             command=self._agregar_asientos,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
-        ).grid(row=1, column=6, padx=8, pady=4)
+            relief="flat"
+        ).grid(row=2, column=6, padx=8, pady=4)
 
     def _crear_bloque_reportes(self) -> None:
-        frame = tk.LabelFrame(self.content, text="Reportes y consultas", bg="white")
+        frame = tk.Frame(self.content, bg="white")
+        self.frame_reportes = frame
         frame.pack(fill="x", padx=14, pady=(0, 10))
+        tk.Label(
+            frame,
+            text="Reportes y consultas",
+            bg="white",
+            font=("Segoe UI", 10, "bold"),
+            anchor="w"
+        ).grid(row=0, column=0, columnspan=5, sticky="w", padx=5, pady=(0, 4))
 
         tk.Button(
             frame,
@@ -231,8 +268,8 @@ class AdminMenu:
             command=self._reporte_evento,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
-        ).grid(row=0, column=0, padx=5, pady=4)
+            relief="flat"
+        ).grid(row=1, column=0, padx=5, pady=4)
 
         tk.Button(
             frame,
@@ -240,12 +277,12 @@ class AdminMenu:
             command=self._reporte_general,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
-        ).grid(row=0, column=1, padx=5, pady=4)
+            relief="flat"
+        ).grid(row=1, column=1, padx=5, pady=4)
 
-        tk.Label(frame, text="Fecha", bg="white").grid(row=0, column=2, padx=(20, 5), pady=4)
+        tk.Label(frame, text="Fecha", bg="white").grid(row=1, column=2, padx=(20, 5), pady=4)
         self.entry_fecha_reporte = tk.Entry(frame, width=12)
-        self.entry_fecha_reporte.grid(row=0, column=3, padx=5, pady=4)
+        self.entry_fecha_reporte.grid(row=1, column=3, padx=5, pady=4)
 
         tk.Button(
             frame,
@@ -253,12 +290,12 @@ class AdminMenu:
             command=self._reporte_por_fecha,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).grid(row=0, column=4, padx=5, pady=4)
+            relief="flat"
+        ).grid(row=1, column=4, padx=5, pady=4)
 
-        tk.Label(frame, text="Ticket ID", bg="white").grid(row=1, column=0, padx=5, pady=4)
+        tk.Label(frame, text="Ticket ID", bg="white").grid(row=2, column=0, padx=5, pady=4)
         self.entry_ticket_id = tk.Entry(frame, width=10)
-        self.entry_ticket_id.grid(row=1, column=1, padx=5, pady=4, sticky="w")
+        self.entry_ticket_id.grid(row=2, column=1, padx=5, pady=4, sticky="w")
 
         tk.Button(
             frame,
@@ -266,8 +303,8 @@ class AdminMenu:
             command=self._consultar_ticket,
             bg="#7A8AA8",
             fg="white",
-            relief="flat",
-        ).grid(row=1, column=2, padx=5, pady=4)
+            relief="flat"
+        ).grid(row=2, column=2, padx=5, pady=4)
 
     def _seleccion_evento_id(self) -> Optional[int]:
         seleccion = self.tree_eventos.selection()
@@ -291,8 +328,8 @@ class AdminMenu:
                     evento.fecha,
                     evento.hora_inicio,
                     evento.duracion_minutos,
-                    f"{evento.precios_por_zona.get('General', 0):.0f}",
-                ),
+                    f"{evento.precios_por_zona.get('General', 0):.0f}"
+                )
             )
 
     def _programar_evento(self) -> None:
@@ -302,14 +339,16 @@ class AdminMenu:
             messagebox.showerror("Dato invalido", "La duracion debe ser un numero entero.")
             return
 
-        ok, mensaje, _ = self.controller.programar_evento(
+        resultado_programacion = self.controller.programar_evento(
             nombre=self.entry_nombre.get().strip(),
             categoria=self.combo_categoria.get().strip(),
             fecha=self.entry_fecha.get().strip(),
             hora_inicio=self.entry_hora.get().strip(),
             duracion_minutos=duracion,
-            descripcion=self.entry_descripcion.get().strip(),
+            descripcion=self.entry_descripcion.get().strip()
         )
+        ok = resultado_programacion[0]
+        mensaje = resultado_programacion[1]
 
         if not ok:
             messagebox.showerror("No se pudo programar", mensaje)
@@ -372,7 +411,7 @@ class AdminMenu:
             fecha=self.entry_fecha.get().strip(),
             hora_inicio=self.entry_hora.get().strip(),
             duracion_minutos=duracion,
-            descripcion=self.entry_descripcion.get().strip(),
+            descripcion=self.entry_descripcion.get().strip()
         )
         if ok:
             messagebox.showinfo("Exito", mensaje)
@@ -458,7 +497,7 @@ class AdminMenu:
             evento_id=evento_id,
             agregar_general=general,
             agregar_preferencial=preferencial,
-            agregar_vip=vip,
+            agregar_vip=vip
         )
         if ok:
             messagebox.showinfo("Exito", mensaje)
@@ -483,7 +522,7 @@ class AdminMenu:
             f"Show: {reporte['evento']} ({reporte['categoria']})",
             f"Fecha: {reporte['fecha']}  Hora: {reporte['hora_inicio']}",
             "",
-            "Ventas por zona:",
+            "Ventas por zona:"
         ]
         for zona, datos in reporte["por_zona"].items():
             lineas.append(
@@ -495,7 +534,7 @@ class AdminMenu:
                 "",
                 f"Total vendidos: {reporte['total_vendidos']}",
                 f"Total recaudado: {reporte['total_recaudado']:.2f}",
-                f"Ocupacion: {reporte['ocupacion']:.2f}%",
+                f"Ocupacion: {reporte['ocupacion']:.2f}%"
             ]
         )
         self._abrir_ventana_reporte("Reporte por show", "\n".join(lineas))
@@ -511,7 +550,7 @@ class AdminMenu:
             f"Ocupacion promedio: {reporte['ocupacion_promedio']:.2f}%",
             f"Show con mayor ocupacion: {reporte['evento_top_nombre']}",
             "",
-            "Ventas por categoria:",
+            "Ventas por categoria:"
         ]
         for categoria, ventas in reporte["ventas_por_categoria"].items():
             lineas.append(f"- {categoria}: {ventas} tickets")
@@ -530,7 +569,7 @@ class AdminMenu:
             f"Shows en fecha: {reporte['total_eventos']}",
             f"Tickets vendidos: {reporte['total_tickets']}",
             f"Recaudacion: {reporte['total_recaudado']:.2f}",
-            f"Show top ocupacion: {reporte['evento_top_nombre']}",
+            f"Show top ocupacion: {reporte['evento_top_nombre']}"
         ]
         self._abrir_ventana_reporte("Reporte por fecha", "\n".join(lineas))
 
@@ -557,10 +596,23 @@ class AdminMenu:
         )
         messagebox.showinfo("Consulta individual de ticket", detalle)
 
-    def _cargar_demo(self) -> None:
-        agregados = self.controller.cargar_shows_demo()
-        messagebox.showinfo("Shows demo", f"Se agregaron {agregados} shows de ejemplo.")
-        self._cargar_eventos()
+    def _agregar_shows(self) -> None:
+        if self.ventana_shows is not None and self.ventana_shows.winfo_exists():
+            self.ventana_shows.lift()
+            self.ventana_shows.focus_force()
+            return
+
+        self.ventana_shows = tk.Toplevel(self.root)
+        self.ventana_shows.title("Gestion de shows")
+        self.ventana_shows.geometry("980x300")
+        self.ventana_shows.configure(bg="white")
+        self.ventana_shows.protocol("WM_DELETE_WINDOW", self._cerrar_ventana_shows)
+        self._crear_formulario_evento(self.ventana_shows)
+
+    def _cerrar_ventana_shows(self) -> None:
+        if self.ventana_shows is not None and self.ventana_shows.winfo_exists():
+            self.ventana_shows.destroy()
+        self.ventana_shows = None
 
     def _abrir_ventana_reporte(self, titulo: str, contenido: str) -> None:
         ventana = tk.Toplevel(self.root)

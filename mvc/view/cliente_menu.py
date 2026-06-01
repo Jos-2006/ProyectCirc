@@ -25,7 +25,7 @@ class ClienteMenu:
             text="Cliente",
             bg="#1E4A8C",
             fg="white",
-            font=("Segoe UI", 14, "bold"),
+            font=("Segoe UI", 14, "bold")
         ).pack(pady=(20, 8))
 
         tk.Button(
@@ -34,7 +34,7 @@ class ClienteMenu:
             command=self._mostrar_cartelera,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(0, 6))
 
         tk.Button(
@@ -43,7 +43,7 @@ class ClienteMenu:
             command=self._mostrar_tickets,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(0, 6))
 
         tk.Button(
@@ -52,7 +52,7 @@ class ClienteMenu:
             command=self.logout_callback,
             bg="#B00020",
             fg="white",
-            relief="flat",
+            relief="flat"
         ).pack(fill="x", padx=14, pady=(20, 0))
 
         self.content = tk.Frame(self.root, bg="white")
@@ -73,7 +73,7 @@ class ClienteMenu:
             "categoria": "Categoria",
             "fecha": "Fecha",
             "hora": "Hora",
-            "general": "Precio G",
+            "general": "Precio G"
         }
         for col in columnas:
             self.tree_cartelera.heading(col, text=titulos[col])
@@ -82,10 +82,17 @@ class ClienteMenu:
         self.tree_cartelera.bind("<<TreeviewSelect>>", self._on_event_select)
         self.tree_cartelera.pack(fill="both", expand=True, padx=14, pady=(10, 6))
 
-        compra_frame = tk.LabelFrame(self.panel_cartelera, text="Compra de entrada", bg="white")
+        compra_frame = tk.Frame(self.panel_cartelera, bg="white")
         compra_frame.pack(fill="x", padx=14, pady=(0, 10))
+        tk.Label(
+            compra_frame,
+            text="Compra de entrada",
+            bg="white",
+            font=("Segoe UI", 10, "bold"),
+            anchor="w"
+        ).grid(row=0, column=0, columnspan=5, sticky="w", padx=6, pady=(0, 4))
 
-        tk.Label(compra_frame, text="Zona", bg="white").grid(row=0, column=0, padx=6, pady=4)
+        tk.Label(compra_frame, text="Zona", bg="white").grid(row=1, column=0, padx=6, pady=4)
         self.zona_var = tk.StringVar(value="General")
         for idx, zona in enumerate(("General", "Preferencial", "VIP"), start=1):
             tk.Radiobutton(
@@ -93,21 +100,21 @@ class ClienteMenu:
                 text=zona,
                 value=zona,
                 variable=self.zona_var,
-                bg="white",
-            ).grid(row=0, column=idx, padx=3, pady=4)
+                bg="white"
+            ).grid(row=1, column=idx, padx=3, pady=4)
 
-        tk.Label(compra_frame, text="Metodo pago", bg="white").grid(row=1, column=0, padx=6, pady=4)
+        tk.Label(compra_frame, text="Metodo pago", bg="white").grid(row=2, column=0, padx=6, pady=4)
         self.combo_pago = ttk.Combobox(
             compra_frame,
             values=["Tarjeta", "Efectivo", "Transferencia"],
             state="readonly",
-            width=20,
+            width=20
         )
         self.combo_pago.set("Tarjeta")
-        self.combo_pago.grid(row=1, column=1, columnspan=2, sticky="w", padx=3, pady=4)
+        self.combo_pago.grid(row=2, column=1, columnspan=2, sticky="w", padx=3, pady=4)
 
         self.label_disponibles = tk.Label(compra_frame, text="Disponibles: -", bg="white")
-        self.label_disponibles.grid(row=2, column=0, columnspan=4, sticky="w", padx=6)
+        self.label_disponibles.grid(row=3, column=0, columnspan=4, sticky="w", padx=6)
 
         tk.Button(
             compra_frame,
@@ -115,8 +122,8 @@ class ClienteMenu:
             command=self._ver_detalle_show,
             bg="#4E7AC7",
             fg="white",
-            relief="flat",
-        ).grid(row=0, column=4, padx=6, pady=4)
+            relief="flat"
+        ).grid(row=1, column=4, padx=6, pady=4)
 
         tk.Button(
             compra_frame,
@@ -124,8 +131,8 @@ class ClienteMenu:
             command=self._comprar,
             bg="#1E4A8C",
             fg="white",
-            relief="flat",
-        ).grid(row=1, column=4, padx=6, pady=4)
+            relief="flat"
+        ).grid(row=2, column=4, padx=6, pady=4)
 
         tk.Button(
             compra_frame,
@@ -133,8 +140,8 @@ class ClienteMenu:
             command=self._cargar_eventos,
             bg="#7A8AA8",
             fg="white",
-            relief="flat",
-        ).grid(row=2, column=4, padx=6, pady=4)
+            relief="flat"
+        ).grid(row=3, column=4, padx=6, pady=4)
 
     def _construir_panel_tickets(self) -> None:
         self.panel_tickets = tk.Frame(self.content, bg="white")
@@ -178,8 +185,8 @@ class ClienteMenu:
                     evento.categoria,
                     evento.fecha,
                     evento.hora_inicio,
-                    f"{evento.precios_por_zona.get('General', 0):.0f}",
-                ),
+                    f"{evento.precios_por_zona.get('General', 0):.0f}"
+                )
             )
 
     def _cargar_tickets(self) -> None:
@@ -188,9 +195,13 @@ class ClienteMenu:
 
         for ticket in self.controller.tickets_del_usuario(self.usuario_id):
             evento = self.controller.detalle_evento(ticket.evento_id)
-            nombre_show = evento.nombre if evento else "-"
-            fecha_show = evento.fecha if evento else "-"
-            hora_show = evento.hora_inicio if evento else "-"
+            nombre_show = "-"
+            fecha_show = "-"
+            hora_show = "-"
+            if evento is not None:
+                nombre_show = evento.nombre
+                fecha_show = evento.fecha
+                hora_show = evento.hora_inicio
 
             self.tree_tickets.insert(
                 "",
@@ -203,8 +214,8 @@ class ClienteMenu:
                     ticket.zona,
                     ticket.numero_asiento,
                     f"{ticket.precio:.2f}",
-                    ticket.metodo_pago,
-                ),
+                    ticket.metodo_pago
+                )
             )
 
     def _on_event_select(self, _event) -> None:
@@ -259,7 +270,7 @@ class ClienteMenu:
             evento_id=evento_id,
             zona=zona,
             usuario_id=self.usuario_id,
-            metodo_pago=metodo_pago,
+            metodo_pago=metodo_pago
         )
         if not ok or ticket is None:
             messagebox.showerror("Compra no realizada", mensaje)
@@ -267,7 +278,7 @@ class ClienteMenu:
 
         messagebox.showinfo(
             "Compra exitosa",
-            f"Ticket #{ticket.identificador} | Zona {ticket.zona} | Asiento {ticket.numero_asiento}",
+            f"Ticket #{ticket.identificador} | Zona {ticket.zona} | Asiento {ticket.numero_asiento}"
         )
         self._on_event_select(None)
 

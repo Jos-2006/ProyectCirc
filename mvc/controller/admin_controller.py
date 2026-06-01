@@ -11,7 +11,7 @@ class AdminController:
     def __init__(
         self,
         evento_service: Optional[EventoService] = None,
-        ticket_service: Optional[TicketService] = None,
+        ticket_service: Optional[TicketService] = None
     ) -> None:
         self.evento_service = evento_service or EventoService()
         self.ticket_service = ticket_service or TicketService()
@@ -23,7 +23,7 @@ class AdminController:
         fecha: str,
         hora_inicio: str,
         duracion_minutos: int,
-        descripcion: str,
+        descripcion: str
     ) -> tuple[bool, str, Optional[Evento]]:
         return self.evento_service.programar_evento(
             nombre=nombre,
@@ -31,7 +31,7 @@ class AdminController:
             fecha=fecha,
             hora_inicio=hora_inicio,
             duracion_minutos=duracion_minutos,
-            descripcion=descripcion,
+            descripcion=descripcion
         )
 
     def actualizar_precios(
@@ -39,13 +39,13 @@ class AdminController:
         evento_id: int,
         precio_general: float,
         precio_preferencial: float,
-        precio_vip: float,
+        precio_vip: float
     ) -> tuple[bool, str]:
         return self.evento_service.actualizar_precios(
             evento_id,
             precio_general,
             precio_preferencial,
-            precio_vip,
+            precio_vip
         )
 
     def actualizar_evento(
@@ -56,7 +56,7 @@ class AdminController:
         fecha: str,
         hora_inicio: str,
         duracion_minutos: int,
-        descripcion: str,
+        descripcion: str
     ) -> tuple[bool, str]:
         return self.evento_service.actualizar_evento(
             evento_id=evento_id,
@@ -65,7 +65,7 @@ class AdminController:
             fecha=fecha,
             hora_inicio=hora_inicio,
             duracion_minutos=duracion_minutos,
-            descripcion=descripcion,
+            descripcion=descripcion
         )
 
     def aumentar_capacidad(
@@ -73,19 +73,19 @@ class AdminController:
         evento_id: int,
         agregar_general: int,
         agregar_preferencial: int,
-        agregar_vip: int,
+        agregar_vip: int
     ) -> tuple[bool, str]:
         return self.evento_service.aumentar_capacidad(
             evento_id=evento_id,
             agregar_general=agregar_general,
             agregar_preferencial=agregar_preferencial,
-            agregar_vip=agregar_vip,
+            agregar_vip=agregar_vip
         )
 
     def eliminar_evento(self, evento_id: int) -> tuple[bool, str]:
         return self.evento_service.eliminar_evento(
             evento_id=evento_id,
-            tiene_tickets=self.ticket_service.evento_tiene_tickets(evento_id),
+            tiene_tickets=self.ticket_service.evento_tiene_tickets(evento_id)
         )
 
     def listar_eventos(self) -> list[Evento]:
@@ -107,16 +107,28 @@ class AdminController:
         eventos = self.evento_service.listar_eventos()
         reporte = self.ticket_service.reporte_general(eventos)
         evento_top_id = reporte.get("evento_top_ocupacion_id")
-        evento_top = self.evento_service.obtener_evento(evento_top_id) if evento_top_id else None
-        reporte["evento_top_nombre"] = evento_top.nombre if evento_top else "-"
+        evento_top = None
+        if evento_top_id:
+            evento_top = self.evento_service.obtener_evento(evento_top_id)
+
+        if evento_top is None:
+            reporte["evento_top_nombre"] = "-"
+        else:
+            reporte["evento_top_nombre"] = evento_top.nombre
         return reporte
 
     def generar_reporte_por_fecha(self, fecha: str) -> dict:
         eventos = self.evento_service.listar_eventos()
         reporte = self.ticket_service.reporte_por_fecha(fecha, eventos)
         evento_top_id = reporte.get("evento_top_ocupacion_id")
-        evento_top = self.evento_service.obtener_evento(evento_top_id) if evento_top_id else None
-        reporte["evento_top_nombre"] = evento_top.nombre if evento_top else "-"
+        evento_top = None
+        if evento_top_id:
+            evento_top = self.evento_service.obtener_evento(evento_top_id)
+
+        if evento_top is None:
+            reporte["evento_top_nombre"] = "-"
+        else:
+            reporte["evento_top_nombre"] = evento_top.nombre
         return reporte
 
     def buscar_ticket(self, ticket_id: int):

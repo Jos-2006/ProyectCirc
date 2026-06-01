@@ -24,7 +24,7 @@ class LoginView:
             text="ProyectCirc",
             bg="white",
             fg="#1E4A8C",
-            font=("Segoe UI", 24, "bold"),
+            font=("Segoe UI", 24, "bold")
         ).pack(pady=(24, 4))
 
         tk.Label(
@@ -32,7 +32,7 @@ class LoginView:
             text="Boleteria y gestion de shows",
             bg="white",
             fg="#445",
-            font=("Segoe UI", 11),
+            font=("Segoe UI", 11)
         ).pack(pady=(0, 20))
 
         tk.Label(card, text="Correo", bg="white", anchor="w").pack(fill="x", padx=34)
@@ -50,7 +50,7 @@ class LoginView:
             fg="white",
             relief="flat",
             command=self._login,
-            font=("Segoe UI", 10, "bold"),
+            font=("Segoe UI", 10, "bold")
         ).pack(fill="x", padx=34, pady=(0, 8))
 
         tk.Button(
@@ -60,7 +60,7 @@ class LoginView:
             fg="white",
             relief="flat",
             command=self._abrir_registro,
-            font=("Segoe UI", 10),
+            font=("Segoe UI", 10)
         ).pack(fill="x", padx=34)
 
         credenciales_info = (
@@ -74,7 +74,7 @@ class LoginView:
             bg="white",
             fg="#667",
             justify="left",
-            font=("Consolas", 9),
+            font=("Consolas", 9)
         ).pack(pady=(16, 0))
 
     def _login(self) -> None:
@@ -118,7 +118,7 @@ class RegistroView:
             text="Crear cuenta",
             bg="white",
             fg="#1E4A8C",
-            font=("Segoe UI", 19, "bold"),
+            font=("Segoe UI", 19, "bold")
         ).pack(pady=(14, 10))
 
         tk.Label(card, text="Nombre completo", bg="white", anchor="w").pack(fill="x", padx=28)
@@ -139,7 +139,7 @@ class RegistroView:
             bg="#1E4A8C",
             fg="white",
             relief="flat",
-            command=self._registrar,
+            command=self._registrar
         ).pack(fill="x", padx=28, pady=(0, 6))
 
         tk.Button(
@@ -148,7 +148,7 @@ class RegistroView:
             bg="#9BAECE",
             fg="white",
             relief="flat",
-            command=self.ventana.destroy,
+            command=self.ventana.destroy
         ).pack(fill="x", padx=28)
 
     def _registrar(self) -> None:
@@ -164,7 +164,7 @@ class RegistroView:
         if usuario is None:
             messagebox.showerror(
                 "No se pudo registrar",
-                "Revisa correo, contrasena (min 4) o si el correo ya existe.",
+                "Revisa correo, contrasena (min 4) o si el correo ya existe."
             )
             return
 
