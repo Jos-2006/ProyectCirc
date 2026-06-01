@@ -4,7 +4,6 @@ from model.evento import Evento
 from service.evento_service import EventoService
 from service.ticket_service import TicketService
 
-
 class AdminController:
     """Controlador principal del modulo de administrador."""
 
