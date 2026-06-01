@@ -124,6 +124,15 @@ python mvc/main.py
 - sin mezclar logica de negocio con interfaz
 - sin duplicacion innecesaria de logica
 
+## Matriz de evaluacion del entregable
+
+- **Funcionalidad del sistema (3%)**: login por roles, venta de tickets, control de aforo y reportes.
+- **Arquitectura MVC (2%)**: separacion en `model`, `repo`, `service`, `controller` y `view`.
+- **Principios SOLID (2%)**: responsabilidades separadas por capa y componentes de GUI modulares.
+- **GUI modular (1.5%)**: vistas separadas por rol y modulos de administrador divididos por panel.
+- **Persistencia JSON (1%)**: almacenamiento por entidad en `mvc/data`.
+- **GitHub y commits (0.5%)**: historial de commits por bloques funcionales.
+
 ## Nota sobre commits
 
 Durante el desarrollo se utilizo una convencion de mensajes de commit para documentar de forma clara y ordenada los cambios del proyecto, tal como se practica en proyectos de mayor alcance.
