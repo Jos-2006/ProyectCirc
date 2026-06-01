@@ -21,7 +21,7 @@ class TicketService:
         evento_repo: Optional[EventoRepository] = None) -> None:
         self.ticket_repo = ticket_repo or TicketRepository()
         self.evento_repo = evento_repo or EventoRepository()
-
+#---------------------------------------------------------------------------
     def _obtener_siguiente_asiento(self, evento_id: int, zona: str, capacidad_zona: int) -> Optional[int]:
         tickets_zona = self.ticket_repo.obtener_por_evento_y_zona(evento_id, zona)
         asientos_ocupados = set()
@@ -32,7 +32,7 @@ class TicketService:
             if asiento not in asientos_ocupados:
                 return asiento
         return None
-
+#---------------------------------------------------------------------------
     def vender_ticket(
         self,
         evento_id: int,
@@ -69,7 +69,7 @@ class TicketService:
             metodo_pago=metodo_pago.strip() or "Sin especificar")
         self.ticket_repo.agregar(ticket)
         return True, "Venta realizada correctamente.", ticket
-
+#---------------------------------------------------------------------------
     def asientos_disponibles(self, evento_id: int) -> Optional[Dict[str, int]]:
         evento = self.evento_repo.obtener_por_id(evento_id)
         if evento is None:
@@ -80,22 +80,22 @@ class TicketService:
             vendidos = len(self.ticket_repo.obtener_por_evento_y_zona(evento_id, zona))
             disponibles[zona] = capacidad - vendidos
         return disponibles
-
+#---------------------------------------------------------------------------
     def listar_tickets(self) -> List[Ticket]:
         return self.ticket_repo.obtener_todos()
-
+#---------------------------------------------------------------------------
     def tickets_por_evento(self, evento_id: int) -> List[Ticket]:
         return self.ticket_repo.obtener_por_evento(evento_id)
-
+#---------------------------------------------------------------------------
     def tickets_por_usuario(self, usuario_id: int) -> List[Ticket]:
         return self.ticket_repo.obtener_por_usuario(usuario_id)
-
+#---------------------------------------------------------------------------
     def obtener_ticket(self, ticket_id: int) -> Optional[Ticket]:
         return self.ticket_repo.obtener_por_id(ticket_id)
-
+#---------------------------------------------------------------------------
     def evento_tiene_tickets(self, evento_id: int) -> bool:
         return len(self.ticket_repo.obtener_por_evento(evento_id)) > 0
-
+#---------------------------------------------------------------------------
     def reporte_evento(self, evento: Evento) -> dict:
         tickets = self.ticket_repo.obtener_por_evento(evento.identificador)
         resumen = {
@@ -138,7 +138,7 @@ class TicketService:
         else:
             resumen["ocupacion"] = 0.0
         return resumen
-
+#---------------------------------------------------------------------------
     def reporte_general(self, eventos: List[Evento]) -> dict:
         total_tickets = 0
         total_recaudado = 0.0
@@ -174,7 +174,7 @@ class TicketService:
             "ventas_por_categoria": resumen_por_categoria,
             "evento_top_ocupacion_id": top_evento_id,
             "ocupacion_promedio": ocupacion_promedio}
-
+#---------------------------------------------------------------------------
     def reporte_por_fecha(self, fecha: str, eventos: List[Evento]) -> dict:
         eventos_filtrados = []
         for evento in eventos:
