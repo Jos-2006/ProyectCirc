@@ -2,22 +2,14 @@
 
 
 class Usuario:
-    def __init__(
-        self,
-        identificador: int,
-        nombre_completo: str,
-        correo_electronico: str,
-        contrasena: str,
-        rol: str,
-        direccion: Optional[str] = None
-    ) -> None:
+    def __init__(self,identificador: int,nombre_completo: str,correo_electronico: str,contrasena: str,rol: str,direccion: Optional[str] = None) -> None:
         self.identificador = identificador
         self.nombre_completo = nombre_completo
         self.correo_electronico = correo_electronico
         self.contrasena = contrasena
         self.rol = rol
         self.direccion = direccion
-
+#---------------------------------------------------------------------------
     def to_dict(self) -> dict:
         return {
             "identificador": self.identificador,
@@ -27,7 +19,7 @@ class Usuario:
             "rol": self.rol,
             "direccion": self.direccion
         }
-
+#---------------------------------------------------------------------------
     @classmethod
     def from_dict(cls, data: dict) -> "Usuario":
         return cls(
@@ -38,7 +30,7 @@ class Usuario:
             rol=data.get("rol", "Cliente"),
             direccion=data.get("direccion")
         )
-
+#---------------------------------------------------------------------------
     def __repr__(self) -> str:
         return (
             f"Usuario(identificador={self.identificador!r}, "

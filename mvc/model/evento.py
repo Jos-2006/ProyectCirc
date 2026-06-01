@@ -2,18 +2,7 @@
 
 
 class Evento:
-    def __init__(
-        self,
-        identificador: int,
-        nombre: str,
-        categoria: str,
-        fecha: str,
-        hora_inicio: str,
-        duracion_minutos: int,
-        descripcion: str,
-        precios_por_zona: Dict[str, float],
-        capacidad_por_zona: Dict[str, int]
-    ) -> None:
+    def __init__(self,identificador: int,nombre: str,categoria: str,fecha: str,hora_inicio: str,duracion_minutos: int,descripcion: str,precios_por_zona: Dict[str, float],capacidad_por_zona: Dict[str, int]) -> None:
         self.identificador = identificador
         self.nombre = nombre
         self.categoria = categoria
@@ -23,7 +12,7 @@ class Evento:
         self.descripcion = descripcion
         self.precios_por_zona = precios_por_zona
         self.capacidad_por_zona = capacidad_por_zona
-
+#---------------------------------------------------------------------------
     def to_dict(self) -> dict:
         return {
             "identificador": self.identificador,
@@ -36,7 +25,7 @@ class Evento:
             "precios_por_zona": self.precios_por_zona,
             "capacidad_por_zona": self.capacidad_por_zona
         }
-
+#---------------------------------------------------------------------------
     @classmethod
     def from_dict(cls, data: dict) -> "Evento":
         return cls(
@@ -50,7 +39,7 @@ class Evento:
             precios_por_zona=dict(data.get("precios_por_zona", {})),
             capacidad_por_zona=dict(data.get("capacidad_por_zona", {}))
         )
-
+#---------------------------------------------------------------------------
     def __repr__(self) -> str:
         return (
             f"Evento(identificador={self.identificador!r}, nombre={self.nombre!r}, "
