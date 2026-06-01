@@ -148,5 +148,55 @@
     "precio": 3500.0,
     "fecha_compra": "2026-05-31 18:52:05",
     "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 16,
+    "evento_id": 1,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 1,
+    "precio": 2500.0,
+    "fecha_compra": "2026-06-01 15:00:33",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 17,
+    "evento_id": 1,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 2,
+    "precio": 2500.0,
+    "fecha_compra": "2026-06-01 15:00:41",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 18,
+    "evento_id": 1,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 3,
+    "precio": 2500.0,
+    "fecha_compra": "2026-06-01 15:00:45",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 19,
+    "evento_id": 1,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 4,
+    "precio": 2500.0,
+    "fecha_compra": "2026-06-01 15:00:48",
+    "metodo_pago": "Efectivo"
+  },
+  {
+    "identificador": 20,
+    "evento_id": 1,
+    "usuario_id": null,
+    "zona": "General",
+    "numero_asiento": 5,
+    "precio": 2500.0,
+    "fecha_compra": "2026-06-01 15:00:51",
+    "metodo_pago": "Efectivo"
   }
 ]
